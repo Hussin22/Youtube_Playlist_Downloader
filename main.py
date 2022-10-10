@@ -1,14 +1,46 @@
+import os
+
 from pytube import Playlist
+from pytube import YouTube
 
-# input to get Url from user
-playlist_url = input('Please enter your Playlist: ')
 
-p = Playlist(playlist_url)
+def playlist(playlist_url):
+    # input to get Url from user
 
-print(f'Downloading: {p.title}')
+    start_index = input('from?')
 
-#looping in each video playlist
-for video in p.videos:
-    print(video.title)
-    st = video.streams.get_highest_resolution()
+    p = Playlist(playlist_url)
+
+    print(f'Downloading: {p.title}')
+    i = int(start_index);
+    #looping in each video playlist
+    lenget = len(p.videos)
+    print(lenget)
+    for index ,video in enumerate(p.videos,start=1):
+        if(index >=i ):
+            print(video.title)
+            st = video.streams.get_highest_resolution()
+            st.download(os.getcwd()+"/"+p.title)
+        else:
+            pass
+
+
+url = input('Please enter your video or playlist url: ')
+
+
+def Video(url):
+    yt =YouTube(url)
+    print(yt.title)
+    st = yt.streams.get_highest_resolution()
     st.download()
+
+
+
+if ("playlist" in url):
+    playlist(url)
+
+elif("watch" in url):
+    Video(url)
+
+else:
+    print("wrong url...")
